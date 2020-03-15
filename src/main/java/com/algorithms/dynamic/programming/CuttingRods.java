@@ -53,12 +53,12 @@ public class CuttingRods {
     }
 
     public int dpRevenue(int lengthOfRod, int[] price) {
-        int[] revenue = new int[lengthOfRod+1];
+        int[] revenue = new int[lengthOfRod + 1];
         revenue[0] = 0;
         for (int i = 1; i <= lengthOfRod; i++) {
             int MAX_VAL = -1;
             for (int j = 1; j <= i; j++) {
-                int tmp = price[j-1] + revenue[i - j];
+                int tmp = price[j - 1] + revenue[i - j];
                 if (tmp > MAX_VAL) {
                     MAX_VAL = tmp;
                 }
