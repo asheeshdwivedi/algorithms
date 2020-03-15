@@ -61,8 +61,35 @@ Define `R[n]` as the maximum revenue you can make from rod of length m then
 Base case `R[0] = 0` if the length of rod is 0 the revenue will be 0
 
 #### Recursive Solution  
-
-https://github.com/asheeshdwivedi/algorithms/blob/5e7edde4b0e873bc5d746a5633582cd4b72fc023/src/main/java/com/algorithms/dynamic/programming/CuttingRods.java#L43-L53
+```
+    public int recursiveRevenue(int lengthOfRod, int[] price) {
+        if (lengthOfRod == 0)
+            return 0;
+        int MAX_VAL = -1;
+        for (int i = 0; i < lengthOfRod; i++) {
+            int tmp = price[lengthOfRod - i - 1] + recursiveRevenue(i, price);
+            if (tmp > MAX_VAL)
+                MAX_VAL = tmp;
+        }
+        return MAX_VAL;
+    }
+```
 
 #### DP Solution
-https://github.com/asheeshdwivedi/algorithms/blob/5e7edde4b0e873bc5d746a5633582cd4b72fc023/src/main/java/com/algorithms/dynamic/programming/CuttingRods.java#L55-L69 
+```
+    public int dpRevenue(int lengthOfRod, int[] price) {
+        int[] revenue = new int[lengthOfRod + 1];
+        revenue[0] = 0;
+        for (int i = 1; i <= lengthOfRod; i++) {
+            int MAX_VAL = -1;
+            for (int j = 1; j <= i; j++) {
+                int tmp = price[j - 1] + revenue[i - j];
+                if (tmp > MAX_VAL) {
+                    MAX_VAL = tmp;
+                }
+                revenue[i] = MAX_VAL;
+            }
+        }
+        return revenue[lengthOfRod];
+    }
+```
