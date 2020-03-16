@@ -6,6 +6,7 @@
 - [Cutting Rod](#Cutting Rod)
 - [Stair Climbing](#Stair Climbing)
 - [House Robber](#House Robber)
+- [Best Time to Buy and Sell Stocks](#Buy And Sell Stocks)
 
 ## Cutting Rod
 
@@ -228,3 +229,75 @@ Base case : `R[1] = numb[1]`
             return maximumRob[numberOfHouse - 1];
         }
 ```
+
+## Buy And Sell Stocks
+
+#### Problem Statement :
+
+Say you have to an array for which the `ith` element is the price of a given stock on day `i`.
+
+if you were only permitted to complete at most one transaction (i.e but one and sell one share of the stock),
+design an algorithm to find the maximum profit.
+
+Example : 
+- input : `[7, 1, 5, 3, 6, 4]` 
+  output : `6-1 = 5`
+
+  max difference = `6-1 = 5` (not `7-1 = 6` selling price should be bigger then the buying price)
+- input : `[7, 6, 4, 3, 2, 1]`  
+  output : `0` (Do not do any transaction for this case, because what ever day we buy will be making the loss ) 
+
+#### Solution 
+Define `R[i]` as the maximum amount of money you can earn form day `1` to day `i`.
+
+#### Possible cases : 
+
+- Sell at day i.
+- Not Sell at day i.
+
+If You Sell at day i, then you to find the minimum value is days 1 to i so the 
+you can make the profit. so 
+```
+ R[i] = Price[i] - min(Price[i], Price[i-1], Price[i-2], ... , Price[1])
+```
+If Not Sell at day i, then the max profit is `R[i-1]`
+
+Combine both of those cases :
+
+```
+ R[i] = max( R[i-1] , Price[i] - min(Price[i], Price[i-1], Price[i-2], ... , Price[1]))
+```
+
+Base Case : if we have only on price the profit is 0 we buy and sell on the same day `R[1] = 0`
+
+#### Recursive Solution  
+```
+    public int maxProfitRecursive(int i, int[] price) {
+            if (i == 0) {
+                return 0;
+            }
+            int maxValue = maxProfitRecursive(i - 1, price);
+            for (int j = 1; j < i; j++) {
+                maxValue = Integer.max(maxValue, price[i - 1] - price[j - 1]);
+            }
+            return maxValue;
+        }
+
+```
+
+#### DP Solution
+```
+     public int maxProfitDp(int i, int[] price) {
+             int[] profits = new int[i];
+             profits[0] = 0;
+             int MIN_VALUE = price[0];
+             for (int j = 1; j < i; j++) {
+                 MIN_VALUE = Integer.min(MIN_VALUE, price[j]);
+                 profits[j] = Integer.max(profits[j - 1], price[j] - MIN_VALUE);
+             }
+             return profits[i - 1];
+         }
+```
+  
+
+ 
