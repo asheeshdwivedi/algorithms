@@ -1,5 +1,4 @@
-# algorithms
-Algorithms
+# Algorithms
 
 ### Dynamic Programing
 
