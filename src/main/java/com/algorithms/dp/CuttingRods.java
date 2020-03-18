@@ -1,4 +1,4 @@
-package com.algorithms.dynamic.programming;
+package com.algorithms.dp;
 
 /*
   Given a rod of length n and price P[i] for i = 1, ..., n where P[i] is the price

@@ -1,4 +1,4 @@
-package com.algorithms.dynamic.programming;
+package com.algorithms.dp;
 
 /*
  Problem Statement : You can climb 1 or 2 stairs with one step. How many different ways can you

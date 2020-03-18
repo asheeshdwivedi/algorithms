@@ -1,9 +1,7 @@
-package com.algorithms.dynamic.programming;
+package com.algorithms.dp;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class CuttingRodsTest {
 
