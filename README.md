@@ -31,7 +31,7 @@ ans so on there are so many ways to cut the rod
 
 #### Solution
 
-Lets say we have a length of rod is n ans we divided the rod in n pieces which is 
+Lets say we have a length of rod is n and we divided the rod in n pieces which is 
 `1, 2, 3, ...,  n`
 
 ####  Possible cases 
