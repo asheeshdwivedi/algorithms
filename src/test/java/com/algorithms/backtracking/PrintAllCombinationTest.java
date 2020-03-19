@@ -12,7 +12,7 @@ class PrintAllCombinationTest {
 
     @Test
     void combination() {
-        printAllCombination.combination(new int[]{3, 2, 5, 8}, 3, new HashSet<>(), 0);
+        printAllCombination.combination(new int[]{3, 2, 5, 8 ,10}, 3, new HashSet<>(), 0);
     }
 
     @Test
