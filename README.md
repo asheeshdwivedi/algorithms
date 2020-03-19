@@ -2,6 +2,40 @@
 
 ### Dynamic Programing
 
+ Dynamic programming is a technique for solving certain type of complex problem
+ efficiently by breaking them down into simpler sub problems and solving each 
+ sub problem exactly once. Dynamic programing stores the result of sub problems 
+ in a table and reuse them when needed to avoid solving the same sub problem again and again    
+
+Type of problem can be solved using DP
+- Optimal substructure
+- Overlapping sub problem
+
+#### Optimal substructure
+
+A given problem has Optimal Substructure Property if optimal solution of the given problem can
+be obtained using optimal solution of its sub problems, or in other words If we can define the solution
+ot the problem using a recurrence relationship based on its sub problem.
+
+   
+#### Overlapping Sub problems 
+
+A given problem has overlapping sub problems property, if to solve the problem we have to solve its sub problems
+multiple times.
+
+#### Approaches to solve dynamic programing.
+
+- Top down approach (Memoization)
+     - Implemented using recursion and caching.
+     - Whenever the recursive function is called we check the cache to see if 
+       the problem has already  been solved.If its already solved then we return the
+       result form the cache else we will solve the sub problem, save the result in 
+       a cache and return the result 
+        
+- Bottom up approach (Tabulation or table filling method)
+
+ 
+
 ## Tables of Contents
 - [Cutting Rod](#Cutting Rod)
 - [Stair Climbing](#Stair Climbing)
