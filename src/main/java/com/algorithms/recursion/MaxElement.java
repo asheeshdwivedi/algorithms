@@ -37,13 +37,13 @@ package com.algorithms.recursion;
 public class MaxElement {
 
     public int max(int[] a) {
-        return this.maximum(a, a.length - 1);
+        return this.max(a, a.length - 1);
     }
 
-    private int maximum(int[] a, int i) {
+    private int max(int[] a, int i) {
         if (i == 0)
             return a[0];
-        return Integer.max(a[i], this.maximum(a, i - 1));
+        return Integer.max(a[i], this.max(a, i - 1));
     }
 
 }

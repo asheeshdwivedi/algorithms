@@ -22,10 +22,10 @@ import java.util.stream.Collectors;
 public class StringAnagrams {
 
     public void anagrams(String input) {
-        anagramInternal(input, new Stack<>());
+        this.anagrams(input, new Stack<>());
     }
 
-    private void anagramInternal(String input, Stack<Character> partial) {
+    private void anagrams(String input, Stack<Character> partial) {
         if (partial.size() == input.length()) {
             final String anagram = partial.stream()
                     .map(String::valueOf)
@@ -36,7 +36,7 @@ public class StringAnagrams {
             char c = input.charAt(i);
             if (!partial.contains(c)) {
                 partial.add(c);
-                anagramInternal(input, partial);
+                anagrams(input, partial);
                 partial.pop();
             }
         }

@@ -23,10 +23,10 @@ public class SumToTarget {
 
     public void sum(int[] input, int targetSum) {
         Arrays.sort(input);
-        sumInternal(input, 0, targetSum, new Stack<>(), 0);
+        this.sum(input, 0, targetSum, new Stack<>(), 0);
     }
 
-    private void sumInternal(int[] input, int sum, int targetSum, Stack<Integer> partial, int start) {
+    private void sum(int[] input, int sum, int targetSum, Stack<Integer> partial, int start) {
         if (sum == targetSum) {
             System.out.println(partial);
         }
@@ -45,7 +45,7 @@ public class SumToTarget {
                 continue;
             }
             partial.add(element);
-            sumInternal(input, sum + element, targetSum, partial, i + 1);
+            sum(input, sum + element, targetSum, partial, i + 1);
             partial.pop();
         }
     }

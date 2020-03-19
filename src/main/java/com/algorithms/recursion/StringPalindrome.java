@@ -27,13 +27,13 @@ package com.algorithms.recursion;
 public class StringPalindrome {
 
     public boolean isPalindrome(String input) {
-        return isPalindromeInner(input, 0, input.length() - 1);
+        return isPalindrome(input, 0, input.length() - 1);
     }
 
-    private boolean isPalindromeInner(String input, int i, int j) {
+    private boolean isPalindrome(String input, int i, int j) {
         if (i >= j)
             return true;
-        return input.charAt(i) == input.charAt(j) && isPalindromeInner(input, i + 1, j - 1);
+        return input.charAt(i) == input.charAt(j) && isPalindrome(input, i + 1, j - 1);
     }
 
 }
