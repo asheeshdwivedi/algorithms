@@ -1,5 +1,7 @@
 package com.algorithms.dp;
 
+import com.sun.xml.internal.fastinfoset.tools.XML_SAX_StAX_FI;
+
 /*
   Given a rod of length n and price P[i] for i = 1, ..., n where P[i] is the price
    of the rod of length i. find the maximum total revenue you can make by cutting the rod
@@ -8,7 +10,7 @@ package com.algorithms.dp;
    length  i = 1 | 2 | 3 | 4 | 5  | 6  | 7  | 8  | 9  | 10
    price  Pi = 1 | 5 | 8 | 9 | 10 | 17 | 17 | 20 | 24 | 30
 
-   Lets say we have the rod length ogf 9 how we can maximize the profit by cutting them
+   Lets say we have the rod length of 9 how we can maximize the profit by cutting them
    a) sell one piece code will be 24
    b) sell two pieces one for length 1 and other of length 8 price will be 1 + 20 = 21
    c) sell two pieces one for length 5 and other of length 4 price will be 10 + 9 = 19
@@ -33,9 +35,21 @@ package com.algorithms.dp;
   so , the best choice is the maximum of
     max of these value [P1 + r(n-1) , P2 + r(n-2) , P3 + r(n-3) ... , P(n-1)+ r1 , Pn]
 
+
   Define R[n] as the maximum revenue you can make from a rod of length n then
     R[N] = max[P[1] + R[n-1] , P[2] + R[n-2] , P[3] + R[n-3] ... , P[n-1]+ R[1] , P[n] + R[0]]
   Base case R[0] = 0;
+
+
+Recurrence Relation :
+
+L => length of the rod
+p=> prices
+
+  maxProfit(L, P) = Max(P[i] + maxProfit( L-i-1 , P)) for i = 0,1,2..L-1
+
+Base case :
+L = 0 return 0
  */
 public class CuttingRods {
 
@@ -43,12 +57,24 @@ public class CuttingRods {
     public int recursiveRevenue(int lengthOfRod, int[] price) {
         if (lengthOfRod == 0)
             return 0;
-        int MAX_VAL = -1;
+        int MAX_VAL = Integer.MIN_VALUE;
         for (int i = 0; i < lengthOfRod; i++) {
-            int tmp = price[lengthOfRod - i - 1] + recursiveRevenue(i, price);
-            if (tmp > MAX_VAL)
-                MAX_VAL = tmp;
+            MAX_VAL = Integer.max(MAX_VAL, price[i] + recursiveRevenue(lengthOfRod - i - 1, price));
         }
+        return MAX_VAL;
+    }
+
+    public int cutRodTopDown(int lengthOfRod, int[] price, int[] cache) {
+        if (lengthOfRod == 0)
+            return 0;
+        if (cache[lengthOfRod] != -1) {
+            return cache[lengthOfRod];
+        }
+        int MAX_VAL = Integer.MIN_VALUE;
+        for (int i = 0; i < lengthOfRod; i++) {
+            MAX_VAL = Integer.max(MAX_VAL, price[i] + recursiveRevenue(lengthOfRod - i - 1, price));
+        }
+        cache[lengthOfRod] = MAX_VAL;
         return MAX_VAL;
     }
 

@@ -37,23 +37,50 @@ Problem Statement :
 R[i] = max[R[i-1] ,nums[i] + max[R[i-2] , R[i-3] ...., R[1]]]
 
 Base case R[1] = numb[1]
+
+Recurrence Relation :
+i is the index of house to rob
+nums are the money for house i .. n
+maxProfit(i, nums) = Max(nums[i] + maxProfit(i-2 , nums) , maxProfit(i-1 , nums) )
+base cases :
+i == 0 return nums[0]
+i < 0 return 0 // edge case if since each recursive call we are calling with i-2
+  so if i=1 will have i-2 will become -1
  */
 public class HouseRobber {
 
-    public int robRecursive(int numberOfHouse, int[] moneyStashInHouse) {
-        if (numberOfHouse == 1)
-            return moneyStashInHouse[0];
-        if (numberOfHouse == 2)
-            return Integer.max(moneyStashInHouse[0], moneyStashInHouse[1]);
-        int MAX_VALUE = -1;
-        MAX_VALUE = Integer.max(MAX_VALUE, robRecursive(numberOfHouse - 1, moneyStashInHouse));
-        for (int i = numberOfHouse - 2; i > 0; i--) {
-            MAX_VALUE = Integer.max(MAX_VALUE, robRecursive(i, moneyStashInHouse) + moneyStashInHouse[numberOfHouse - 1]);
+    public int robRecursive(int indexOfHouse, int[] moneyStashInHouse) {
+        if (indexOfHouse < 0) {
+            return 0;
         }
-        return MAX_VALUE;
+        if (indexOfHouse == 0) {
+            return moneyStashInHouse[0];
+        }
+        int robCurrentHouse = moneyStashInHouse[indexOfHouse] + robRecursive(indexOfHouse - 2, moneyStashInHouse);
+        int skipCurrentHouse = robRecursive(indexOfHouse - 1, moneyStashInHouse);
+        return Integer.max(robCurrentHouse, skipCurrentHouse);
     }
 
-    public int robDp(int numberOfHouse, int[] moneyStashInHouse) {
+    public int robTopDown(int indexOfHouse, int[] moneyStashInHouse, int cache[]) {
+        if (indexOfHouse < 0) {
+            return 0;
+        }
+        if (indexOfHouse == 0) {
+            return moneyStashInHouse[0];
+        }
+        if (cache[indexOfHouse] != 0) {
+            return cache[indexOfHouse];
+        }
+        int robCurrentHouse = moneyStashInHouse[indexOfHouse] + robRecursive(indexOfHouse - 2, moneyStashInHouse);
+        int skipCurrentHouse = robRecursive(indexOfHouse - 1, moneyStashInHouse);
+        int maxProfit = Integer.max(robCurrentHouse, skipCurrentHouse);
+        cache[indexOfHouse] = maxProfit;
+        return maxProfit;
+    }
+
+
+    public int robDp(int[] moneyStashInHouse) {
+        int numberOfHouse = moneyStashInHouse.length;
         int[] maximumRob = new int[numberOfHouse];
         maximumRob[0] = moneyStashInHouse[0];
         maximumRob[1] = Integer.max(moneyStashInHouse[0], moneyStashInHouse[1]);
@@ -62,5 +89,47 @@ public class HouseRobber {
             maximumRob[i] = Integer.max(maximumRob[i], maximumRob[i - 2] + moneyStashInHouse[i]);
         }
         return maximumRob[numberOfHouse - 1];
+    }
+
+    /* converting recurrence relation  with the DP equation
+     Recurrence Relation :
+     cache[i]  = Max(nums[i-1] + cache[i-2] , cache[i-1]))
+     */
+    public int robDpAlternative(int[] moneyStashInHouse) {
+        int n = moneyStashInHouse.length;
+        int[] cache = new int[n + 1];
+        cache[1] = moneyStashInHouse[0];
+        for (int i = 2; i <= n; i++) {
+            cache[i] = Integer.max(moneyStashInHouse[i - 1] + cache[i - 2], cache[i - 1]);
+        }
+        return cache[n];
+    }
+
+    public int robDpAlternativeReconstruct(int[] moneyStashInHouse) {
+        int n = moneyStashInHouse.length;
+        int[] cache = new int[n + 1];
+        boolean[] decision = new boolean[n];
+        cache[1] = moneyStashInHouse[0];
+        for (int i = 2; i <= n; i++) {
+            int robCurrentHouse = moneyStashInHouse[i - 1] + cache[i - 2];
+            int skipCurrentHouse = cache[i - 1];
+            if (robCurrentHouse > skipCurrentHouse) {
+                cache[i] = robCurrentHouse;
+                decision[i - 1] = true;
+            } else {
+                cache[i] = cache[i - 1];
+                decision[i - 1] = false;
+            }
+        }
+        int i = n - 1;
+        while (i >= 0) {
+            if (decision[i]) {
+                System.out.println(i + " " + moneyStashInHouse[i]);
+                i = i - 2;
+            } else {
+                i--;
+            }
+        }
+        return cache[n];
     }
 }
