@@ -103,11 +103,15 @@ public class PaintHouse {
         if (cache[houseIndex][colorIndex] != -1) {
             return cache[houseIndex][colorIndex];
         }
+        for (int i = 0; i < cost.length; i++) {
+
+        }
+
         switch (colorIndex) {
             case RED: {
                 int costBlue = minCostTopDown(cost, houseIndex + 1, BLUE, cache);
                 int costGreen = minCostTopDown(cost, houseIndex + 1, GREEN, cache);
-                return cache[houseIndex][colorIndex] = cost[houseIndex][RED] + Integer.min(costBlue, costGreen);
+                cache[houseIndex][colorIndex] = cost[houseIndex][RED] + Integer.min(costBlue, costGreen);
             }
             case BLUE: {
                 int costRed = minCostTopDown(cost, houseIndex + 1, RED, cache);
@@ -121,5 +125,89 @@ public class PaintHouse {
             }
         }
         return 0;
+    }
+
+    public int minCostBottomUp(int[][] cost) {
+        int n = cost.length;
+        int[][] cache = new int[cost.length + 1][3];
+        if (n == 0) {
+            return 0;
+        }
+
+        for (int i = 1; i <= n; i++) {
+            cache[i][RED] = cost[i - 1][RED] + Integer.min(cache[i - 1][BLUE], cache[i - 1][GREEN]);
+            cache[i][BLUE] = cost[i - 1][BLUE] + Integer.min(cache[i - 1][RED], cache[i - 1][GREEN]);
+            cache[i][GREEN] = cost[i - 1][GREEN] + Integer.min(cache[i - 1][RED], cache[i - 1][BLUE]);
+        }
+
+        return Math.min(cache[n][RED], Integer.min(cache[n][GREEN], cache[n][BLUE]));
+    }
+
+    public int minCostBottomUpReconstruction(int[][] cost) {
+        int n = cost.length;
+        int[][] cache = new int[cost.length + 1][3];
+        int[][] decision = new int[cost.length + 1][3];
+        if (n == 0) {
+            return 0;
+        }
+
+        for (int i = 1; i <= n; i++) {
+            //RED
+            if (cache[i - 1][BLUE] < cache[i - 1][GREEN]) {
+                decision[i][RED] = BLUE;
+                cache[i][RED] = cost[i - 1][RED] + cache[i - 1][BLUE];
+            } else {
+                decision[i][RED] = GREEN;
+                cache[i][RED] = cost[i - 1][RED] + cache[i - 1][GREEN];
+            }
+
+            //BLUE
+            if (cache[i - 1][RED] < cache[i - 1][GREEN]) {
+                decision[i][BLUE] = RED;
+                cache[i][BLUE] = cost[i - 1][BLUE] + cache[i - 1][RED];
+            } else {
+                decision[i][BLUE] = GREEN;
+                cache[i][BLUE] = cost[i - 1][BLUE] + cache[i - 1][GREEN];
+            }
+
+            //GREEN
+            if (cache[i - 1][RED] < cache[i - 1][BLUE]) {
+                decision[i][GREEN] = RED;
+                cache[i][GREEN] = cost[i - 1][GREEN] + cache[i - 1][RED];
+            } else {
+                decision[i][GREEN] = BLUE;
+                cache[i][GREEN] = cost[i - 1][GREEN] + cache[i - 1][BLUE];
+            }
+        }
+
+        int result = Math.min(cache[n][RED], Integer.min(cache[n][GREEN], cache[n][BLUE]));
+
+        int color = 0;
+        if (result == cache[n][RED]) {
+            color = RED;
+        } else if (result == cache[n][BLUE]) {
+            color = BLUE;
+        } else if (result == cache[n][GREEN]) {
+            color = GREEN;
+        }
+        int i = n;
+        do {
+            System.out.println("House " + (i - 1) + ", Paint " + paintColor(decision[i][color]) + " Cost " + cost[i - 1][color]);
+            color = decision[i][color];
+            i--;
+        } while (i > 0);
+        return result;
+    }
+
+    public String paintColor(int color) {
+        switch (color) {
+            case RED:
+                return "RED";
+            case BLUE:
+                return "BLUE";
+            case GREEN:
+                return "GREEN";
+        }
+        return "";
     }
 }

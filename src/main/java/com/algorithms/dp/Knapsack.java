@@ -75,7 +75,7 @@ public class Knapsack {
 
     /*
 
-    Rule of thumb If your recurrence relationship, if the value of the parameter passed to
+    Rule of thumb in your recurrence relationship, if the value of the parameter passed to
     the recursive call to the function is less than the current value of the parameter, then
     your for loop for the parameter should iterate in ascending order. Otherwise you loop
     for the parameter should iterate in descending order.

@@ -25,4 +25,19 @@ class PaintHouseTest {
         Assertions.assertEquals(10, minCost);
     }
 
+    @Test
+    public void testMinCostBottomUp() {
+        int[][] cost = {{17, 2, 17}, {16, 16, 5}, {14, 3, 9},};
+        int minCost = this.paintHouse.minCostBottomUp(cost);
+        System.out.println(minCost);
+        Assertions.assertEquals(10, minCost);
+    }
+
+    @Test
+    public void testMinCostBottomUpReconstruction() {
+        int[][] cost = {{17, 2, 17}, {16, 16, 5}, {14, 3, 9},};
+        int minCost = this.paintHouse.minCostBottomUpReconstruction(cost);
+        System.out.println(minCost);
+        Assertions.assertEquals(10, minCost);
+    }
 }
